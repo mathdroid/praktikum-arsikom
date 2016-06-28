@@ -1,0 +1,18 @@
+WIDTH=32;    -- number of bits of data per word
+DEPTH=256;    -- the number of addresses
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+CONTENT
+BEGIN
+  00 : 8c020000;  
+  04 : 8c030001;
+  08 : 00430820;
+  0C : ac010003;
+  10 : 1022ffff;
+  14 : 1021fffa;
+  06 : 0043282a;
+  07 : 10a00002;
+  09 : 1000fffb;
+  10 : ac040000;
+  11 : 1000ffff;
+END;

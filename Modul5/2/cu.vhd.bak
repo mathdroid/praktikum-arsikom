@@ -1,0 +1,146 @@
+-- Praktikum EL3111 Arsitektur Sistem Komputer
+-- Modul : 5
+-- Percobaan : 1
+-- Tanggal : 1 Desember 2014
+-- Kelompok : III
+-- Rombongan : A
+-- Nama (NIM) 1 : Damon Prasetyo Arso (13212001)
+-- Nama (NIM) 2 : Muhammad Mustadi (13210056)
+-- Nama File : cu.vhd
+-- Deskripsi : Program Control Unit
+
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_ARITH.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+ENTITY cu IS
+PORT (
+	OP_In : IN STD_LOGIC_VECTOR (5 DOWNTO 0); 
+	FUNCT_In : IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+	Sig_Jmp 	: OUT STD_LOGIC_VECTOR (1 DOWNTO 0);
+	Sig_Bne 	: OUT STD_LOGIC; 
+	Sig_Branch 	: OUT STD_LOGIC;
+	Sig_MemtoReg: OUT STD_LOGIC; 
+	Sig_MemRead : OUT STD_LOGIC; 
+	Sig_MemWrite: OUT STD_LOGIC;
+	Sig_RegDest : OUT STD_LOGIC_VECTOR (1 DOWNTO 0);
+	Sig_RegWrite: OUT STD_LOGIC; 
+	Sig_ALUSrc 	: OUT STD_LOGIC;
+	Sig_ALUCtrl : OUT STD_LOGIC_VECTOR (1 DOWNTO 0)
+	);
+END cu;
+
+ARCHITECTURE behavior OF cu IS
+BEGIN
+	PROCESS(OP_In, FUNCT_In)
+	BEGIN
+		CASE OP_In IS
+			WHEN "000000" =>
+				CASE FUNCT_In IS
+					WHEN "100000" => --add
+						Sig_Jmp <= "00";
+						Sig_Bne <= '0';
+						Sig_Branch <= '0';
+						Sig_MemtoReg <= '0';
+						Sig_MemRead <= '0';
+						Sig_MemWrite <= '0';
+						Sig_RegDest <= "01";
+						Sig_RegWrite <= '1';
+						Sig_ALUSrc <= '0';
+						Sig_ALUCtrl <= "00";
+					WHEN "100010" => --sub
+						Sig_Jmp <= "00";
+						Sig_Bne <= '0';
+						Sig_Branch <= '0';
+						Sig_MemtoReg <= '0';
+						Sig_MemRead <= '0';
+						Sig_MemWrite <= '0';
+						Sig_RegDest <= "01";
+						Sig_RegWrite <= '1';
+						Sig_ALUSrc <= '0';
+						Sig_ALUCtrl <= "01";
+					WHEN "000000" => --nop
+						Sig_Jmp <= "00";
+						Sig_Bne <= '0';
+						Sig_Branch <= '0';
+						Sig_MemtoReg <= '0';
+						Sig_MemRead <= '0';
+						Sig_MemWrite <= '0';
+						Sig_RegDest <= "00";
+						Sig_RegWrite <= '0';
+						Sig_ALUSrc <= '0';
+						Sig_ALUCtrl <= "00";
+					WHEN OTHERS =>
+						
+				END CASE;	
+			WHEN "000100" => --beq
+				Sig_Jmp <= "00";
+				Sig_Bne <= '0';
+				Sig_Branch <= '1';
+				Sig_MemtoReg <= '0';
+				Sig_MemRead <= '0';
+				Sig_MemWrite <= '0';
+				Sig_RegDest <= "XX";
+				Sig_RegWrite <= '1';
+				Sig_ALUSrc <= 'X';
+				Sig_ALUCtrl <= "XX";
+			WHEN "000101" => --bne
+				Sig_Jmp <= "00";
+				Sig_Bne <= '1';
+				Sig_Branch <= '0';
+				Sig_MemtoReg <= '0';
+				Sig_MemRead <= '0';
+				Sig_MemWrite <= '0';
+				Sig_RegDest <= "XX";
+				Sig_RegWrite <= '1';
+				Sig_ALUSrc <= 'X';
+				Sig_ALUCtrl <= "XX";
+			WHEN "001000" => --addi
+				Sig_Jmp <= "00";
+				Sig_Bne <= '0';
+				Sig_Branch <= '0';
+				Sig_MemtoReg <= '0';
+				Sig_MemRead <= '0';
+				Sig_MemWrite <= '0';
+				Sig_RegDest <= "00";
+				Sig_RegWrite <= '1';
+				Sig_ALUSrc <= '1';
+				Sig_ALUCtrl <= "00";
+			WHEN "100011" => --lw
+				Sig_Jmp <= "00";
+				Sig_Bne <= '0';
+				Sig_Branch <= '0';
+				Sig_MemtoReg <= '1';
+				Sig_MemRead <= '1';
+				Sig_MemWrite <= '0';
+				Sig_RegDest <= "00";
+				Sig_RegWrite <= '1';
+				Sig_ALUSrc <= '1';
+				Sig_ALUCtrl <= "00";
+			WHEN "101011" => --sw
+				Sig_Jmp <= "00";
+				Sig_Bne <= '0';
+				Sig_Branch <= '0';
+				Sig_MemtoReg <= '0';
+				Sig_MemRead <= '0';
+				Sig_MemWrite <= '1';
+				Sig_RegDest <= "00";
+				Sig_RegWrite <= '0';
+				Sig_ALUSrc <= '1';
+				Sig_ALUCtrl <= "00";
+			WHEN "000010" => --jmp	
+				Sig_Jmp <= "01";
+				Sig_Bne <= '0';
+				Sig_Branch <= '0';
+				Sig_MemtoReg <= '0';
+				Sig_MemRead <= '0';
+				Sig_MemWrite <= '0';
+				Sig_RegDest <= "XX";
+				Sig_RegWrite <= '0';
+				Sig_ALUSrc <= 'X';
+				Sig_ALUCtrl <= "XX";
+			WHEN OTHERS =>
+		END CASE;
+	END PROCESS;
+END behavior;
